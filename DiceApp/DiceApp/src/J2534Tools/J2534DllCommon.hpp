@@ -1,0 +1,79 @@
+#ifndef DLL_COMMON
+#define DLL_COMMON
+
+using J2534DeviceID = unsigned long;
+using J2534ChannelID = unsigned long;
+using J2534Flags = unsigned long;
+using J2534RxStatus = unsigned long;
+using J2534TxFlags = unsigned long;
+using J2534Timestamp = unsigned long;
+using J2534DataSize = unsigned long;
+using J2534ExtraDataIndex = unsigned long;
+using J2534Data = unsigned char;
+
+constexpr J2534Flags CAN_29BIT_ID = (1 << 8);
+constexpr J2534Flags ISO15765_FRAME_PAD = (1 << 6);
+
+enum J2534_FILTER {
+	PASS_FILTER = 1,
+	BLOCK_FILTER,
+	FLOW_CONTROL_FILTER,
+};
+
+enum J2534_PROTOCOL {
+	J1850VPW = 1,
+	J1850PWM,
+	ISO9141,
+	ISO14230,
+	CAN,
+	ISO15765,
+	SCI_A_ENGINE,
+	SCI_A_TRANS,
+	SCI_B_ENGINE,
+	SCI_B_TRANS,
+	CAN_XON_XOFF,
+	MIXED_FORMAT
+};
+
+enum J2534_ERROR_CODE {
+	STATUS_NOERROR,
+	ERR_NOT_SUPPORTED,
+	ERR_INVALID_CHANNEL_ID,
+	ERR_INVALID_PROTOCOL_ID,
+	ERR_NULL_PARAMETER,
+	ERR_INVALID_IOCTL_VALUE,
+	ERR_INVALID_FLAGS,
+	ERR_FAILED,
+	ERR_DEVICE_NOT_CONNECTED,
+	ERR_TIMEOUT,
+	ERR_INVALID_MSG,
+	ERR_INVALID_TIME_INTERVAL,
+	ERR_EXCEEDED_LIMIT,
+	ERR_INVALID_MSG_ID,
+	ERR_DEVICE_IN_USE,
+	ERR_INVALID_IOCTL_ID,
+	ERR_BUFFER_EMPTY,
+	ERR_BUFFER_FULL,
+	ERR_BUFFER_OVERFLOW,
+	ERR_PIN_INVALID,
+	ERR_CHANNEL_IN_USE,
+	ERR_MSG_PROTOCOL_ID,
+	ERR_INVALID_FILTER_ID,
+	ERR_NO_FLOW_CONTROL,
+	ERR_NOT_UNIQUE,
+	ERR_INVALID_BAUDRATE,
+	ERR_INVALID_DEVICE_ID
+};
+
+struct PASSTHRU_MSG
+{
+	J2534_PROTOCOL ProtocolID;
+	J2534RxStatus RxStatus;
+	J2534TxFlags TxFlags;
+	J2534Timestamp Timestamp;
+	J2534DataSize DataSize;
+	J2534ExtraDataIndex ExtraDataIndex;
+	J2534Data Data[4128];
+};
+
+#endif // !DLL_COMMON
