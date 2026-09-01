@@ -5,6 +5,7 @@
 #include <optional>
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 
 #include "J2534DllCommon.hpp";
 
@@ -46,6 +47,7 @@ public:
 	) const;
 
 	const std::vector<uint8_t>& getData() const { return m_data; }
+	const uint32_t getId() const { return m_id; }
 
 	static CanFrame fromPassThruMsg(
 		const PASSTHRU_MSG& msg
@@ -67,5 +69,10 @@ public:
 		const CanFrame& frame,
 		uint8_t targetId,
 		const std::vector<uint8_t>& requestId
+	);
+
+	static void printFrame(
+		const CanFrame& frame,
+		bool withId = true
 	);
 };

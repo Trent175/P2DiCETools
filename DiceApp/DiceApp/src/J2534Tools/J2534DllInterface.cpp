@@ -8,6 +8,8 @@ void J2534DllInterface::NullAll() {
 	PassThruDisconnect = nullptr;
 	PassThruStartMsgFilter = nullptr;
 	PassThruStartPeriodicMsg = nullptr;
+	PassThruStopMsgFilter = nullptr;
+	PassThruStopPeriodicMsg = nullptr;
 	PassThruWriteMsgs = nullptr;
 	hModule = nullptr;
 }
@@ -47,6 +49,8 @@ int J2534DllInterface::Load(const wchar_t* path) {
 	success &= LoadFunction(hModule, PassThruDisconnect, "PassThruDisconnect");
 	success &= LoadFunction(hModule, PassThruStartMsgFilter, "PassThruStartMsgFilter");
 	success &= LoadFunction(hModule, PassThruStartPeriodicMsg, "PassThruStartPeriodicMsg");
+	success &= LoadFunction(hModule, PassThruStopMsgFilter, "PassThruStopMsgFilter");
+	success &= LoadFunction(hModule, PassThruStopPeriodicMsg, "PassThruStopPeriodicMsg");
 	success &= LoadFunction(hModule, PassThruWriteMsgs, "PassThruWriteMsgs");
 
 	if (!success) {

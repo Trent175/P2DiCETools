@@ -19,6 +19,12 @@
     <Filter Include="Header Files\J2534Tools">
       <UniqueIdentifier>{137d1081-d74c-4917-8b6c-cb71a687b956}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PinCracker">
+      <UniqueIdentifier>{62a7bbe0-b670-4695-9bfa-9b45fd0d3b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PinCracker">
+      <UniqueIdentifier>{9398cb17-5c9c-4a42-b523-2651d3139ec1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DiceApp.cpp">

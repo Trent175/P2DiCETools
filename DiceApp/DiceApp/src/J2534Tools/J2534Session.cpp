@@ -116,6 +116,14 @@ J2534_ERROR_CODE J2534Session::StartMsgFilter(
 	return filterError;
 }
 
+J2534_ERROR_CODE J2534Session::StopMsgFilter(
+	unsigned long filterID
+) {
+	J2534_ERROR_CODE stopFilterError = m_interface.PassThruStopMsgFilter(m_channelID, filterID);
+
+	return stopFilterError;
+}
+
 J2534_ERROR_CODE J2534Session::StartPeriodicMsg(
 	J2534Data pID[],
 	J2534Data pData[],
@@ -134,6 +142,14 @@ J2534_ERROR_CODE J2534Session::StartPeriodicMsg(
 	J2534_ERROR_CODE startMsgError = m_interface.PassThruStartPeriodicMsg(m_channelID, &msg, &msgID, interval);
 
 	return startMsgError;
+}
+
+J2534_ERROR_CODE J2534Session::StopPeriodicMsg(
+	unsigned long msgID
+) {
+	J2534_ERROR_CODE stopMsgError = m_interface.PassThruStopPeriodicMsg(m_channelID, msgID);
+
+	return stopMsgError;
 }
 
 J2534_ERROR_CODE J2534Session::ReadMsgs(

@@ -61,9 +61,7 @@ int main() {
 	Session.SendFrame(enableCommFrame);
 
 	Session.SendFrame(unregisterFrame);
-	for (int i = 0; i < 3; i++) {
-		Session.SendFrame(registerRpm);
-	}
+	Session.SendFrame(registerRpm);
 
 	while (true) {
 		Session.SendFrame(pollFrame);
@@ -71,9 +69,28 @@ int main() {
 		J2534_ERROR_CODE readErr = Session.ReadMsgs(msgs, 1, 1000); // short timeout, tight loop
 		if (readErr == STATUS_NOERROR) {
 			for (PASSTHRU_MSG& msg : msgs) {
-				if (msg.DataSize >= 7 && msg.Data[5] == 0x7A && msg.Data[6] == (0xA6 + 0x40)) {
-					uint16_t raw = (msg.Data[9] << 8) | msg.Data[10]; // adjust indices once confirmed
-					double rpm = raw * 0.25;
+				
+				CanFrame can = CanFrame::fromPassThruMsg(msg);
+				//CanFrame::printFrame(can);
+				D2Response response = CanFrame::tryParseD2Response(can, 0x7A, { 0xA6, 0xF0, 0x00 });
+				
+				if (response.matched) {
+					std::vector<uint8_t> rData = response.payload;
+
+					if (rData.size() == 0) { // register not actually working, reopen
+						Session.SendFrame(registerRpm);
+						Sleep(50); // give it a second before bombarding with more requests
+						continue;
+					}
+
+					double rpm = 0;
+
+					if (rData.size() >= 2) {
+						uint16_t raw = (rData[0] << 8) | rData[1];
+
+						rpm = raw * 0.25;
+					}
+
 					std::cout << "RPM: " << rpm << std::endl;
 				}
 			}
@@ -81,6 +98,7 @@ int main() {
 		else {
 			std::cout << jInterface.GetErrorCode(readErr) << std::endl;
 		}
+		Sleep(20); // 50/s
 		// no Sleep, or a very small one (~10ms) if the bus needs a breather between requests
 	}
 

@@ -132,3 +132,34 @@ CanFrame CanFrame::fromPassThruMsg(
 	result.payload.assign(d.begin() + 1 + echoRegionSize, d.begin() + 1 + dataSize);
 	return result;
 }
+
+/* static */ void CanFrame::printFrame(
+	const CanFrame& frame,
+	bool withId
+) {
+	std::vector<uint8_t> msg;
+	
+	if (withId) {
+		uint32_t id = frame.getId();
+		std::vector<uint8_t> data = frame.getData();
+
+		msg = {
+			static_cast<uint8_t>(id >> 24),
+			static_cast<uint8_t>(id >> 16),
+			static_cast<uint8_t>(id >> 8),
+			static_cast<uint8_t>(id)
+		};
+
+		msg.insert(msg.end(), data.begin(), data.end());
+	} else {
+		msg = frame.getData();
+	}
+
+	std::cout << std::hex << std::uppercase << std::setfill('0');
+
+	for (auto byte : msg) {
+		std::cout << std::setw(2) << static_cast<int>(byte) << " ";
+	}
+
+	std::cout << std::endl;
+}

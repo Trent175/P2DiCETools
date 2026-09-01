@@ -50,6 +50,10 @@ public:
 		unsigned long& filterID
 	);
 
+	J2534_ERROR_CODE StopMsgFilter(
+		unsigned long filterID
+	);
+
 	// needs rewrite for CanFrame
 	J2534_ERROR_CODE StartPeriodicMsg(
 		J2534Data pID[],
@@ -58,6 +62,10 @@ public:
 		J2534Flags flags,
 		unsigned long& msgID,
 		unsigned long interval
+	);
+
+	J2534_ERROR_CODE StopPeriodicMsg(
+		unsigned long msgID
 	);
 
 	J2534_ERROR_CODE ReadMsgs(

@@ -52,6 +52,16 @@ using PassThruStartPeriodicMsg_t = J2534_ERROR_CODE(__stdcall*)(
 	unsigned long TimeInterval
 	);
 
+using PassThruStopMsgFilter_t = J2534_ERROR_CODE(__stdcall*)(
+	J2534ChannelID channelID,
+	unsigned long FilterID
+	);
+
+using PassThruStopPeriodicMsg_t = J2534_ERROR_CODE(__stdcall*)(
+	J2534ChannelID channelID,
+	unsigned long msgID
+	);
+
 using PassThruWriteMsgs_t = J2534_ERROR_CODE(__stdcall*)(
 	J2534ChannelID channelID,
 	PASSTHRU_MSG* pMsg,
@@ -72,6 +82,8 @@ public:
 	PassThruDisconnect_t PassThruDisconnect;
 	PassThruStartMsgFilter_t PassThruStartMsgFilter;
 	PassThruStartPeriodicMsg_t PassThruStartPeriodicMsg;
+	PassThruStopMsgFilter_t PassThruStopMsgFilter;
+	PassThruStopPeriodicMsg_t PassThruStopPeriodicMsg;
 	PassThruWriteMsgs_t PassThruWriteMsgs;
 
 	J2534DllInterface();
